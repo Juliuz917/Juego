@@ -15,8 +15,7 @@ public class Teclado implements KeyListener{
     public boolean izquierda;
     public boolean derecha;
     
-    //Declaracion de las teclas para controles
-    
+    //Declaracion de las teclas para controles    
     public void actualizar(){
         arriba = teclas[KeyEvent.VK_W];
         abajo = teclas[KeyEvent.VK_S];

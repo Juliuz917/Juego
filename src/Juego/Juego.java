@@ -1,9 +1,13 @@
 package Juego;
 
 import control.Teclado;
+import graficos.Pantalla;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,13 +27,25 @@ public class Juego extends Canvas implements Runnable {
     private static int aps = 0;
     private static int fps = 0;
     
+    private static int x = 0;
+    private static int y = 0;
     
     private static JFrame ventana;
     private static Thread thread;
     private static Teclado teclado;
+    private static Pantalla pantalla;
     
+    //manera para que el array de pixeles pueda manipular la imagen, los numeros 
+    //y toda la informacion presentada en pantalla
+    private static BufferedImage imagen = new BufferedImage(
+            ANCHO, ALTO, BufferedImage.TYPE_INT_RGB);
+    private static int [] pixeles = ((DataBufferInt) imagen.getRaster().getDataBuffer()).getData();
+    
+    //CONSTRUCTOR PRINCIPAL DEL JUEGO
     public Juego(){
         setPreferredSize(new Dimension(ANCHO,ALTO));
+        
+        pantalla = new Pantalla(ANCHO, ALTO);
         
         teclado = new Teclado();
         addKeyListener(teclado);
@@ -87,6 +103,14 @@ public class Juego extends Canvas implements Runnable {
     }
     
     private void mostrar(){
+        BufferStrategy estrategia = getBufferStrategy();
+        
+        if (estrategia == null){
+            createBufferStrategy(3);
+            return;
+        }
+        
+        
         fps++;
     }
     
@@ -109,8 +133,7 @@ public class Juego extends Canvas implements Runnable {
         //Metodo para que el sistema haga focus en la pantalla 
         requestFocus();
         
-        //BUCLE PRINCIPAL DEL JUEGO
-        
+        //BUCLE PRINCIPAL DEL JUEGO        
         while (enFuncionamiento){
             final long inicioBucle = System.nanoTime();
             
