@@ -5,6 +5,7 @@ import graficos.Pantalla;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
@@ -109,6 +110,29 @@ public class Juego extends Canvas implements Runnable {
             createBufferStrategy(3);
             return;
         }
+        //Metodos del Buffer
+        pantalla.limpiar();
+        pantalla.mostrar(x,y);
+        
+        //Copiar los arrays
+        System.arraycopy(pantalla.pixeles, 0, pixeles, 0, pixeles.length);
+        
+        
+        /* Metodo opcional de prueba
+        for(int i = 0; i < pixeles.length; i++){
+            pixeles[i]= pantalla.pixeles[i];
+        }
+        */
+        
+        //Dibujar Graficos en pantalla
+        Graphics g = estrategia.getDrawGraphics();
+        
+        g.drawImage(imagen , 0, 0, getWidth(), getHeight(), null);
+        //destruir memoria de la variable
+        g.dispose();       
+        //Para que la imagen se vea en pantalla
+        estrategia.show();
+        
         
         
         fps++;
