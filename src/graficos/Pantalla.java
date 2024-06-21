@@ -41,7 +41,7 @@ public class Pantalla {
                 }
                  
                  //TEMPORAL
-                pixeles[posicionX + posicionY * ancho] = Sprite.tierra.pixeles[(
+                pixeles[posicionX + posicionY * ancho] = Sprite.cesped.pixeles[(
                         x & MASCARA_SPRITE) + (y & MASCARA_SPRITE) * LADO_SPRITE];
                  
             }

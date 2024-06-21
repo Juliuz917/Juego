@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+
 
 import javax.swing.JFrame;
 
@@ -23,7 +25,7 @@ public class Juego extends Canvas implements Runnable {
     
     private static volatile boolean enFuncionamiento = false;
     
-    private static final String NOMBRE = "Juego";
+    private static final String NOMBRE = "Dungeons & Raids";
     
     private static int aps = 0;
     private static int fps = 0;
@@ -42,6 +44,9 @@ public class Juego extends Canvas implements Runnable {
             ANCHO, ALTO, BufferedImage.TYPE_INT_RGB);
     private static int [] pixeles = ((DataBufferInt) imagen.getRaster().getDataBuffer()).getData();
     
+    //Icono de la App\
+    private static final ImageIcon icono = new ImageIcon(Juego.class.getResource("/Juego/ico.png"));
+    
     //CONSTRUCTOR PRINCIPAL DEL JUEGO
     public Juego(){
         setPreferredSize(new Dimension(ANCHO,ALTO));
@@ -54,6 +59,7 @@ public class Juego extends Canvas implements Runnable {
         ventana = new JFrame(NOMBRE);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setResizable(false);
+        ventana.setIconImage(icono.getImage());
         ventana.setLayout(new BorderLayout());
         ventana.add(this,BorderLayout.CENTER);
         ventana.pack();
@@ -88,16 +94,16 @@ public class Juego extends Canvas implements Runnable {
         teclado.actualizar();
         
         if (teclado.arriba){
-            System.out.println("arriba");
+            y++;
         }
          if (teclado.abajo){
-            System.out.println("abajo");
+             y--;
         }
           if (teclado.derecha){
-            System.out.println("derecha");
+              x--;
         }
            if (teclado.izquierda){
-            System.out.println("izquierda");
+               x++;           
         }
         
         aps++;
@@ -141,11 +147,10 @@ public class Juego extends Canvas implements Runnable {
     
     
    
-    public void run() {
-        System.out.println("El Thread 2 se esta ejecutando con exito!");
+    public void run() {       
         System.nanoTime();
         final int NS_POR_SEGUNDO = 1000000000;
-        final byte APS_OBJETIVO = 60;
+        final byte APS_OBJETIVO = 80;
         final double NS_POR_ACTUALIZACION = NS_POR_SEGUNDO / APS_OBJETIVO;
         
         long referenciaActualizacion = System.nanoTime();
@@ -175,7 +180,8 @@ public class Juego extends Canvas implements Runnable {
             mostrar();
         
             if (System.nanoTime() - referenciaContador > NS_POR_SEGUNDO){
-                ventana.setTitle(NOMBRE+ "||| APS: " + aps + " || FPS: " + fps);
+                ventana.setTitle(NOMBRE+ "||| APS: <" + aps + "> || FPS: <" + fps +">");
+                System.out.println(fps);
                 aps = 0;
                 fps = 0;
                 referenciaContador = System.nanoTime();

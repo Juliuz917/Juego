@@ -10,7 +10,7 @@ public final class Sprite {
     private final HojaSprites hoja;
     
     //coleccion de sprites
-    public static Sprite tierra = new Sprite(32, 0, 0, HojaSprites.mine);
+    public static Sprite cesped = new Sprite(32, 0, 0, HojaSprites.mine);
        
     //fin de la coleccion
     
